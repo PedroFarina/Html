@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="layout.css" type="text/css">
+        <meta charset="UTF-8">
+        <script>
+            var Pontuacao = -1;
+            var Questoes = 
+            [
+            ["Qual o nome da matéria ensina como criar conteúdos para web?",["Tecnologia", "Web Development", "Tecnologia Web", "Browser Class"], 2]
+            ,
+            ["Qual o formato para criar uma história de usuário?\<br>" + 
+             "a-Eu como [usuário] quero [requisito] para que [motivo].\<br>" +
+             "b-Eu como [requisito] preciso ser solicitado por [usuario] de modo que [funcionalidade].\<br>" +
+             "c-Eu desejo [requisito] visto que sou um [usuário] pois [motivo].",["a","b","c"] , 0]
+            ,
+            ["Como é representado o número 15(decimal) em \<b>hexadecimal\</b>?", ["15", "16", "E", "F"], 2]
+            ,
+            ["Qual a diferença entre um for e um while?", ["Nenhuma", "for tem outra sintaxe", "while roda pra sempre", "for conta o numero de vezes que rodou", "for acumula uma váriavel até um certo valor"], 4]
+            ,
+            ["Qual valor será mostrado no console na execução do seguinte programa:\<br>def CalculaAreaQuadrado(l):\<br>return math.pow(l, 2)\<br>...\<br>print('Aqui começa o programa')\<br>LadoQuadrado = 3\<br>CalculaAreaQuadrado(LadoQuadrado)\<br>print(l)",
+             ["3", "6", "9", "Erro"], 3]
+            ,
+            ["Qual é a tag usada para usar um script?", ["\<script tag=\"Local\">", "\<script src=\"Local\">", "\<script href=\"Local\">" ], 1]
+            ,
+            ["É muito comum vermos uma tag [p class=\"clear\"] em várias documentações de HTML e CSS. Qual sua utilidade?", ["Deixar a página bonita", "Escrever um parágrafo", "Pular uma linha", "Limpar a tela", "Fixar objetos flutuando", "Deixar a tela mais limpa", "Apagar tags desnecessárias"], 4]
+            ,
+            ["Em Matemática Discreta, qual simbolo representa o operador lógico 'and'?", ["∧", "∨"], 0]
+            ,
+            ["Em uma função criada em Python, é \<b>necessário\</b> usar o nome do parametro com o mesmo nome atribuido à variável?\<br>Ex: def func(Numero):\<br>\b\b...\<br>Numero = 2\<br>func(Numero)",,1]
+            ,
+            ["Suponha que tenhamos uma função [MudarBackGround] em JavaScript sendo usada ao pressionar um botão, onde é necessário passar o valor selecionado em um objeto do tipo [select id=\"Cor\"].\<br>" +
+             "Como devemos fazer a sintaxe no botão?", ["onclick=\"Cor\"", "click=\"SelectedCor\"", "click=\"select\"", "onclick=\"Cor.value\"", "onclick=\"select.Cor\"", "onclick=\"GetValue(Cor)\""], 3]
+            ];
+            var contaQuestao = 0;
+            function CriarPergunta(Pergunta, Respostas, Certa){
+                var btnHTML = "";
+                if (Pergunta == undefined){
+                    Pergunta = "Pergunta :";
+                }
+                if(Respostas == undefined){
+                    Respostas = ["Sim","Não"];
+                }
+                if(Certa == undefined){
+                    Certa = 0;
+                }
+                for(i = 0; i < Respostas.length; i++){
+                    var Valor = i == Certa ? "1" : "0";
+                    btnHTML += "\<button class=\"Resposta\" onclick=\"Responder(" + Valor + ")\">" + Respostas[i] + "\</button>";
+                }
+                document.getElementById('Questao').innerHTML = "\<form class=\"Questao\">\<label class=\"Pergunta\">" + Pergunta + "\</label>\</br>" + btnHTML + "\<br>\</form>";
+            }
+            function Responder(Resposta){
+                Pontuacao += Resposta;
+                var QuestaoAtual = Questoes[contaQuestao];
+                if(contaQuestao < Questoes.length){
+                    CriarPergunta(QuestaoAtual[0], QuestaoAtual[1], QuestaoAtual[2]);
+                    contaQuestao += 1;
+                }
+                else{
+                    Finalizar();
+                }
+                
+            }
+            function Finalizar(){
+                var Display = "";
+                var Porc = Pontuacao/Questoes.length * 100;
+                if(Porc == 100){
+                    Display = "Uau, você é um gênio da computação!\<br>Continue estudando assim e você se formará logo.";
+                }
+                else if(Porc >= 80 && Porc < 100){
+                    Display = "Muito bem!!\<br>Computação é o seu forte, você está a algumas horas da perfeição!";
+                }
+                else if(Porc >= 50 && Porc < 80){
+                    Display = "Uau, você manda muito!\<br>Não são todos que se saem tão bem no teste, porém você ainda tem muito a aprender."
+                }
+                else if(Porc >= 30 && Porc < 50){
+                    Display = "Infelizmente você não soube responder corretamente muitas questões.\<br>Mas isso apenas prova que o seu potencial de aprendizado é um dos mais altos!\<br>Com dedicação e disciplina você consegue!!";
+                }
+                else{
+                    Display = "Tem certeza que computação é o curso certo?";
+                }
+                CriarPergunta(Display, ["Tentar Novamente"], 0)
+                Pontuacao = -1;
+                contaQuestao = 0;
+            }
+        </script>
+    </head>
+    <body>
+        <div id="Questao">
+            <form class="Questao">
+                <script>CriarPergunta("Este é um quizz sobre computação.Você deseja começar o mesmo?", ["Sim"])</script>
+            </form>
+        </div>
+    </body>
+</html>

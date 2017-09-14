@@ -1,0 +1,29 @@
+body{
+    background-color: lightcyan;
+}
+.Questao{
+    background-color: azure;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+.Pergunta{
+    font-size: 15pt;
+}
+.Resposta{
+    border: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 15px;
+    margin-left: 0px;
+}
+.Resposta:hover{
+    background-color: lightslategray;
+}
+
+.clear{
+    clear: both;
+}

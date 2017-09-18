@@ -23,7 +23,20 @@ body{
 .Resposta:hover{
     background-color: lightslategray;
 }
-
+ul.Rodape {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    left:0;
+    background-color: #AABBDD;
+    list-style-type: none;
+    width: 100%;
+}
+#Copyright{
+    float:right;
+    border-right: none;
+}
 .clear{
     clear: both;
 }

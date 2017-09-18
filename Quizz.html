@@ -21,7 +21,7 @@
             ["Qual valor será mostrado no console na execução do seguinte programa:\<br>def CalculaAreaQuadrado(l):\<br>return math.pow(l, 2)\<br>...\<br>print('Aqui começa o programa')\<br>LadoQuadrado = 3\<br>CalculaAreaQuadrado(LadoQuadrado)\<br>print(l)",
              ["3", "6", "9", "Erro"], 3]
             ,
-            ["Qual é a tag usada para usar um script?", ["\<script tag=\"Local\">", "\<script src=\"Local\">", "\<script href=\"Local\">" ], 1]
+            ["Qual é a tag usada para usar um script?", ["[script tag=\"Local\"]", "[script src=\"Local\"]", "[script href=\"Local\"]" ], 1]
             ,
             ["É muito comum vermos uma tag [p class=\"clear\"] em várias documentações de HTML e CSS. Qual sua utilidade?", ["Deixar a página bonita", "Escrever um parágrafo", "Pular uma linha", "Limpar a tela", "Fixar objetos flutuando", "Deixar a tela mais limpa", "Apagar tags desnecessárias"], 4]
             ,
@@ -52,8 +52,8 @@
             }
             function Responder(Resposta){
                 Pontuacao += Resposta;
-                var QuestaoAtual = Questoes[contaQuestao];
                 if(contaQuestao < Questoes.length){
+                    var QuestaoAtual = Questoes[contaQuestao];
                     CriarPergunta(QuestaoAtual[0], QuestaoAtual[1], QuestaoAtual[2]);
                     contaQuestao += 1;
                 }
@@ -87,10 +87,17 @@
         </script>
     </head>
     <body>
-        <div id="Questao">
-            <form class="Questao">
-                <script>CriarPergunta("Este é um quizz sobre computação.Você deseja começar o mesmo?", ["Sim"])</script>
-            </form>
-        </div>
+        <section id="Questionario">
+            <article id="Questao">
+                <form class="Questao">
+                    <script>CriarPergunta("Este é um quizz sobre computação.Você deseja começar o mesmo?", ["Sim"])</script>
+                </form>
+            </article>
+        </section>
+         <footer>
+            <ul class="Rodape">
+                <li id="Copyright"><p>Copyright © 2017 Pedro. All rights reserved.</p></li>
+            </ul>
+     </footer>
     </body>
 </html>

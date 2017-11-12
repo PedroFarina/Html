@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="layout.css" type="text/css">
         <meta charset="UTF-8">
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
         <script>
             var Pontuacao = -1;
             var Questoes = 
@@ -33,35 +34,54 @@
              "Como devemos fazer a sintaxe no botão?", ["onclick=\"Cor\"", "click=\"SelectedCor\"", "click=\"select\"", "onclick=\"Cor.value\"", "onclick=\"select.Cor\"", "onclick=\"GetValue(Cor)\""], 3]
             ];
             var contaQuestao = 0;
-            function CriarPergunta(Pergunta, Respostas, Certa){
-                var btnHTML = "";
-                if (Pergunta == undefined){
-                    Pergunta = "Pergunta :";
-                }
-                if(Respostas == undefined){
-                    Respostas = ["Sim","Não"];
-                }
-                if(Certa == undefined){
-                    Certa = 0;
-                }
-                for(i = 0; i < Respostas.length; i++){
-                    var Valor = i == Certa ? "1" : "0";
-                    btnHTML += "\<button class=\"Resposta\" onclick=\"Responder(" + Valor + ")\">" + Respostas[i] + "\</button>";
-                }
-                document.getElementById('Questao').innerHTML = "\<form class=\"Questao\">\<label class=\"Pergunta\">" + Pergunta + "\</label>\</br>" + btnHTML + "\<br>\</form>";
-            }
-            function Responder(Resposta){
-                Pontuacao += Resposta;
-                if(contaQuestao < Questoes.length){
-                    var QuestaoAtual = Questoes[contaQuestao];
-                    CriarPergunta(QuestaoAtual[0], QuestaoAtual[1], QuestaoAtual[2]);
-                    contaQuestao += 1;
-                }
-                else{
-                    Finalizar();
-                }
-                
-            }
+            (function( $ ){
+                    $.fn.CriarPergunta = function() {
+                        var Pergunta = this[0];
+                        var Respostas = this[1];
+                        var Certa = this[2];
+                        var btnHTML = "";
+                        if (Pergunta == undefined){
+                            Pergunta = "Pergunta :";
+                        }
+                        if(Respostas == undefined){
+                            Respostas = ["Sim","Não"];
+                        }
+                        if(Certa == undefined){
+                            Certa = 0;
+                        }
+                        for(i = 0; i < Respostas.length; i++){
+                            var Valor = i == Certa ? "1" : "0";
+                            btnHTML += "\<button class=\"Resposta\" value=\"" + Valor + "\">" + Respostas[i] + "\</button>";
+                        }
+                        $(".Questao").off('click');
+                        $(".Questao").append("\<label class=\"Pergunta\">" + Pergunta + "\</label>\<br>" + btnHTML + "\<br>\</form>").on('click', 'button.Resposta', function(){
+                            Pontuacao += parseInt(this.value);
+                            if(contaQuestao < Questoes.length){
+                                var QuestaoAtual = Questoes[contaQuestao];
+                                $(".Questao").empty();
+                                $(QuestaoAtual).CriarPergunta();
+                                contaQuestao += 1;
+                            }
+                            else{
+                                Finalizar();
+                            }
+                        });
+                    };
+                })( jQuery );
+            $(document).ready(function(){               
+                $(".Resposta").click(function(){
+                    Pontuacao += parseInt(this.value);
+                    if(contaQuestao < Questoes.length){
+                        var QuestaoAtual = Questoes[contaQuestao];
+                        $(".Questao").empty();
+                        $(QuestaoAtual).CriarPergunta();
+                        contaQuestao += 1;
+                    }
+                    else{
+                        Finalizar();
+                    }
+                });
+            });
             function Finalizar(){
                 var Display = "";
                 var Porc = Pontuacao/Questoes.length * 100;
@@ -80,9 +100,11 @@
                 else{
                     Display = "Tem certeza que computação é o curso certo?";
                 }
-                CriarPergunta(Display, ["Tentar Novamente"], 0)
                 Pontuacao = -1;
                 contaQuestao = 0;
+                $('.Questao').empty();
+                var Pergunta = [Display, ["Tentar Novamente"], 0]
+                $(Pergunta).CriarPergunta();
             }
         </script>
     </head>
@@ -90,7 +112,10 @@
         <section id="Questionario">
             <article id="Questao">
                 <form class="Questao">
-                    <script>CriarPergunta("Este é um quizz sobre computação.Você deseja começar o mesmo?", ["Sim"])</script>
+                    <label class="Pergunta">Este é um quizz sobre computação.Você deseja começar o mesmo?</label>
+                    <br>
+                    <button class="Resposta" value=1>Sim</button>
+                    <br>
                 </form>
             </article>
         </section>
